@@ -1,5 +1,5 @@
 Gofa:
-  ip_robot: "192.168.131.200"
+  ip_robot: "192.168.15.81"
   # port_robot: 80 for virtual robot (robotstudio)
   port_robot: 443
   name_robot: "ROB_1"
