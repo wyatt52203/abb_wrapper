@@ -261,6 +261,7 @@ const std::string Resources::LEADTHROUGH                      = "/lead-through";
 const std::string Resources::MODULES                          = "/modules";
 const std::string Resources::RW_CFG                           = Services::RW + "/cfg";
 const std::string Resources::RW_IOSYSTEM_SIGNALS              = Services::RW + "/iosystem/signals";
+const std::string Resources::RW_MASTERSHIP_MOTION             = Services::RW + "/mastership/motion";
 const std::string Resources::RW_MASTERSHIP                    = Services::RW + "/mastership/edit";
 const std::string Resources::RW_MOTIONSYSTEM_MECHUNITS        = Services::RW + "/motionsystem/mechunits";
 const std::string Resources::RW_PANEL_CTRLSTATE               = Services::RW + "/panel/ctrl-state";

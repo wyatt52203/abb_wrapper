@@ -651,6 +651,11 @@ struct SystemConstants
       static const std::string RW_MASTERSHIP;
       
       /**
+       * \brief Mastership.
+       */
+      static const std::string RW_MASTERSHIP_MOTION;
+
+      /**
        * \brief Mechanical units.
        */
       static const std::string RW_MOTIONSYSTEM_MECHUNITS;
