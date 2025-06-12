@@ -34,6 +34,7 @@ catkin_package(INCLUDE_DIRS include
 ## Build ##
 ###########
 set(SRC_FILES
+    src/executables/start_rapid_program.cpp
     src/rws_client.cpp
     src/rws_common.cpp
     src/rws_interface.cpp
@@ -48,6 +49,23 @@ include_directories(include
 
 add_library(${PROJECT_NAME} ${SRC_FILES})
 target_link_libraries(${PROJECT_NAME} ${Poco_LIBRARIES} ${catkin_LIBRARIES} PocoNet PocoUtil PocoFoundation) #  ACTION 2
+
+
+#############
+##   Exec  ##
+#############
+add_executable(start_rapid_program src/executables/start_rapid_program.cpp)
+target_link_libraries(start_rapid_program
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Poco_LIBRARIES}
+  PocoNet
+  PocoUtil
+  PocoFoundation
+  PocoNetSSL
+  PocoCrypto
+)
+
 
 #############
 ## Install ##

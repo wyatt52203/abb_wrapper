@@ -363,6 +363,11 @@ public:
   {
     logout();
   }
+  
+  
+  void debugPostAndPrint(const std::string& uri, const std::string& content);
+
+  void debugGetAndPrint(const std::string& uri);
 
   /**
    * \brief A method for retrieving the configuration instances of a type, belonging to a specific configuration topic.
@@ -472,6 +477,20 @@ public:
    * \return RWSResult containing the result.
    */
   RWSResult getPanelOperationMode();
+  
+  /**
+   * \brief A method for setting the operation mode to auto.
+   *
+   * \return RWSResult containing the result.
+   */
+  RWSResult setAutoMode();
+
+  /**
+   * \brief A method for setting the operation mode to manual.
+   *
+   * \return RWSResult containing the result.
+   */
+  RWSResult setManualMode();
 
   /**
    * \brief A method for setting the value of an IO signal.
@@ -650,6 +669,18 @@ public:
    *
    */
   RWSResult releaseMasterShip();
+ 
+  /**
+   * \brief Method for request a mastership on rw domain (motion)
+   *
+   */ 
+  RWSResult requestMasterShipMotion();
+
+  /**
+   * \brief Method for release a mastership on rw domain (motion)
+   *
+   */
+  RWSResult releaseMasterShipMotion();
 
   /**
    * \brief Method for parsing a communication result into a XML document.

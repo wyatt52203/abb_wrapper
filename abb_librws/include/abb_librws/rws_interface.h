@@ -450,6 +450,20 @@ public:
    * \return bool indicating if the communication was successful or not.
    */
   bool resetRAPIDProgramPointer();
+  
+  /**
+   * \brief A method for setting the robot to auto mode.
+   *
+   * \return bool indicating if the communication was successful or not.
+   */
+  bool setAutoMode();
+
+  /**
+   * \brief A method for setting the robot to manual mode.
+   *
+   * \return bool indicating if the communication was successful or not.
+   */
+  bool setManualMode();
 
   /**
    * \brief A method for turning on the robot controller's motors.
@@ -579,6 +593,18 @@ public:
    *
    */
   bool releaseMasterShip();
+
+  /**
+   * \brief Method for request a mastership on rw domain (Motion).
+   *
+   */
+  bool requestMasterShipMotion();
+
+  /**
+   * \brief Method for release a mastership on rw domain (Motion).
+   *
+   */
+  bool releaseMasterShipMotion();
 
   /**
    * \brief A method for retrieving the internal log as a text string.

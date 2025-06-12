@@ -229,6 +229,16 @@ bool RWSInterface::resetRAPIDProgramPointer()
   return rws_client_.resetRAPIDProgramPointer().success;
 }
 
+bool RWSInterface::setAutoMode()
+{
+  return rws_client_.setAutoMode().success;
+}
+
+bool RWSInterface::setManualMode()
+{
+  return rws_client_.setManualMode().success;
+}
+
 bool RWSInterface::setMotorsOn()
 {
   return rws_client_.setMotorsOn().success;
@@ -425,6 +435,16 @@ bool RWSInterface::requestMasterShip()
 bool RWSInterface::releaseMasterShip()
 {
   return rws_client_.releaseMasterShip().success;
+}
+
+bool RWSInterface::requestMasterShipMotion()
+{
+  return rws_client_.requestMasterShipMotion().success;
+}
+
+bool RWSInterface::releaseMasterShipMotion()
+{
+  return rws_client_.releaseMasterShipMotion().success;
 }
 
 std::string RWSInterface::getLogText(const bool verbose)
