@@ -78,6 +78,18 @@ target_link_libraries(stop_rapid_program
   PocoCrypto
 )
 
+add_executable(manage_files src/executables/manage_files.cpp)
+target_link_libraries(manage_files
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Poco_LIBRARIES}
+  PocoNet
+  PocoUtil
+  PocoFoundation
+  PocoNetSSL
+  PocoCrypto
+)
+
 #############
 ## Install ##
 #############
