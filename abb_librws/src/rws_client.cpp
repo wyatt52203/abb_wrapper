@@ -471,11 +471,17 @@ RWSClient::RWSResult RWSClient::uploadFile(const FileResource resource, const st
 {
   uri_ = generateFilePath(resource);
   content_ = file_content;
+  
 
   evaluation_conditions_.reset();
   evaluation_conditions_.parse_message_into_xml = false;
   evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_OK);
   evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_CREATED);
+  
+  POCOResult result = httpPut(uri_, content_);
+
+  std::cout << "HTTP Status: " << result.poco_info.http.response.status << std::endl;
+  std::cout << "Response Content:\n" << result.poco_info.http.response.content << std::endl;
 
   return evaluatePOCOResult(httpPut(uri_, content_), evaluation_conditions_);
 }
@@ -490,6 +496,25 @@ RWSClient::RWSResult RWSClient::deleteFile(const FileResource resource)
   evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_NO_CONTENT);
 
   return evaluatePOCOResult(httpDelete(uri_), evaluation_conditions_);
+}
+
+RWSClient::RWSResult RWSClient::loadFileToRapid(const FileResource resource)
+{
+  uri_ = Resources::RW_RAPID_TASKS + "/T_ROB1/program/load";
+  content_ = "progpath=/" + resource.directory + "/" + resource.filename;
+
+  std::cout << "content: " << content_ << std::endl;
+
+
+  evaluation_conditions_.reset();
+  evaluation_conditions_.parse_message_into_xml = false;
+  evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_OK);
+  evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_CREATED);
+  
+  debugPostAndPrint(uri_, content_);
+
+  return evaluatePOCOResult(httpPost(uri_, content_), evaluation_conditions_);
+  
 }
 
 RWSClient::RWSResult RWSClient::startSubscription(SubscriptionResources resources)

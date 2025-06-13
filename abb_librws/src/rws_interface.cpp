@@ -378,6 +378,11 @@ bool RWSInterface::deleteFile(const RWSClient::FileResource resource)
   return rws_client_.deleteFile(resource).success;
 }
 
+bool RWSInterface::loadFileToRapid(const RWSClient::FileResource resource)
+{
+  return rws_client_.loadFileToRapid(resource).success;
+}
+
 bool RWSInterface::startSubscription (RWSClient::SubscriptionResources resources)
 {
   return rws_client_.startSubscription(resources).success;
