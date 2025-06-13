@@ -477,8 +477,6 @@ RWSClient::RWSResult RWSClient::uploadFile(const FileResource resource, const st
   evaluation_conditions_.parse_message_into_xml = false;
   evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_OK);
   evaluation_conditions_.accepted_outcomes.push_back(HTTPResponse::HTTP_CREATED);
-  
-  POCOResult result = httpPut(uri_, content_);
 
   return evaluatePOCOResult(httpPut(uri_, content_), evaluation_conditions_);
 }
