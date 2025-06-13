@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>abb_librapid_socket</name>
+  <version>0.1.0</version>
+  <description>TCP socket interface to ABB RAPID sockets</description>
+
+  <maintainer email="wyatt@tyson.build">Wyatt Harris</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>cmake_modules</build_depend>
+
+  <export>
+  </export>
+</package>
