@@ -66,6 +66,29 @@ target_link_libraries(start_rapid_program
   PocoCrypto
 )
 
+add_executable(stop_rapid_program src/executables/stop_rapid_program.cpp)
+target_link_libraries(stop_rapid_program
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Poco_LIBRARIES}
+  PocoNet
+  PocoUtil
+  PocoFoundation
+  PocoNetSSL
+  PocoCrypto
+)
+
+add_executable(load_file src/executables/load_file.cpp)
+target_link_libraries(load_file
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Poco_LIBRARIES}
+  PocoNet
+  PocoUtil
+  PocoFoundation
+  PocoNetSSL
+  PocoCrypto
+)
 
 #############
 ## Install ##

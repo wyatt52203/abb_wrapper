@@ -525,6 +525,24 @@ public:
   bool deleteFile(const RWSClient::FileResource resource);
   
   /**
+   * \brief A method for loading a file from the robot controller.
+   *
+   * \param resource specifying the file's directory and name.
+   *
+   * \return RWSResult containing the result.
+   */
+  bool loadFileToRapid(const RWSClient::FileResource resource);
+
+  /**
+   * \brief A method for loading a file from the robot controller.
+   *
+   * \param resource specifying the file's directory and name.
+   *
+   * \return RWSResult containing the result.
+   */
+  bool unloadFileFromRapid();
+
+  /**
    * \brief A method for starting for a subscription.
    *
    * \param resources specifying the resources to subscribe to.
