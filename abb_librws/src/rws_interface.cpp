@@ -383,6 +383,11 @@ bool RWSInterface::loadFileToRapid(const RWSClient::FileResource resource)
   return rws_client_.loadFileToRapid(resource).success;
 }
 
+bool RWSInterface::unloadFileFromRapid()
+{
+  return rws_client_.unloadFileFromRapid().success;
+}
+
 bool RWSInterface::startSubscription (RWSClient::SubscriptionResources resources)
 {
   return rws_client_.startSubscription(resources).success;

@@ -34,21 +34,34 @@ int main()
 
     // Turn off existing processes
     std::cout << "program off: " << rws_interface.stopRAPIDExecution() << std::endl;
+    std::cin.get();
 
-    // Upload/overwritefiles
+    // Upload/overwrite mod file
     std::string file_content = readFileAsString("/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/test.mod");
     abb::rws::RWSClient::FileResource upload_resource("simple_arm_ctl.mod", "Home/Programs/Wizard");
-    std::cout << "upload file: " << rws_interface.uploadFile(upload_resource, file_content) << std::endl;
-    
+    std::cout << "upload mod file: " << rws_interface.uploadFile(upload_resource, file_content) << std::endl;
+    std::cin.get();
 
-    // Request MasterShip (Required to reset program pointer)
+    // Upload/overwrite program file
+    std::string program_file_content = readFileAsString("/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/test.pgf");
+    abb::rws::RWSClient::FileResource program_upload_resource("simple_arm_ctl.pgf", "Home/Programs/Wizard");
+    std::cout << "upload program file: " << rws_interface.uploadFile(program_upload_resource, program_file_content) << std::endl;
+    std::cin.get();
+
+    // Request MasterShip (Required to manage rapid tasks)
     std::cout << "requesting mastership: " << rws_interface.requestMasterShip() << std::endl;
     std::cin.get();
 
-    // loading rapid task?
+    // unload rapid task
+    std::cout << "unload task file: " << rws_interface.unloadFileFromRapid() << std::endl;
+    std::cin.get();
+
+    // loading rapid task
     abb::rws::RWSClient::FileResource program("simple_arm_ctl.pgf", "Home/Programs/Wizard");
-    std::cout << "load file: " << rws_interface.loadFileToRapid(program) << std::endl; 
+    std::cout << "load file to task: " << rws_interface.loadFileToRapid(program) << std::endl; 
+    std::cin.get(); 
     
+    // release MasterShip
     std::cout << "releasing mastership: " << rws_interface.releaseMasterShip() << std::endl;
     std::cin.get();
     

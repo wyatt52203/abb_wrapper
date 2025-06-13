@@ -43,13 +43,13 @@ MODULE simple_arm_ctl
             TPWrite typed_msg;
             
             IF num_msg = 1 THEN
-                MoveJ Forward, v400, fine, tool0;
+                MoveJ Forward, v1500, fine, tool0;
             ELSEIF num_msg = 2 THEN
-                MoveJ Leftdown, v400, fine, tool0;
+                MoveJ Leftdown, v1500, fine, tool0;
             ELSEIF num_msg = 3 THEN
-                MoveJ Forwarddown, v400, fine, tool0;
+                MoveJ Forwarddown, v1500, fine, tool0;
             ELSEIF num_msg = 4 THEN
-                MoveJ Rightdown, v400, fine, tool0;
+                MoveJ Rightdown, v1500, fine, tool0;
             ENDIF
             
             motor_angle := ReadMotor(1);
