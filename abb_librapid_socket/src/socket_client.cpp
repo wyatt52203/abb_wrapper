@@ -18,6 +18,12 @@ void SocketClient::sendBytes(const void* buffer, int length) {
     socket_.sendBytes(buffer, length);
 }
 
+void SocketClient::receiveBytes(void* buffer, int length) {
+    if (!is_connected_)
+        throw Poco::IllegalStateException("Socket not connected");
+    socket_.receiveBytes(buffer, length);
+}
+
 void SocketClient::close() {
     if (is_connected_) {
         socket_.close();

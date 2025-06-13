@@ -13,6 +13,7 @@ public:
     SocketClient(const std::string& ip, int port);
     void connect();
     void sendBytes(const void* buffer, int length);
+    void receiveBytes(void* buffer, int length);
     void close();
 
 private:

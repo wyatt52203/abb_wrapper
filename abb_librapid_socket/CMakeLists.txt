@@ -61,6 +61,18 @@ target_link_libraries(manual_trigger
   PocoCrypto
 )
 
+add_executable(benchmark_rate src/executables/benchmark_rate.cpp)
+target_link_libraries(benchmark_rate
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Poco_LIBRARIES}
+  PocoNet
+  PocoUtil
+  PocoFoundation
+  PocoNetSSL
+  PocoCrypto
+)
+
 #############
 ## Install ##
 #############

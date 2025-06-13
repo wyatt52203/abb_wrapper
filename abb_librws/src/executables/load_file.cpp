@@ -25,6 +25,10 @@ int main()
     std::string ip = "192.168.15.81";
     std::string username = "Admin";
     std::string password = "robotics";
+    std::string controller_file_name = "speed_benchmark";
+    std::string original_file_name = "speed_benchmark";
+    std::string original_file_path = "/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/";
+    std::string controller_file_path = "Home/Programs/Wizard";
 
     // Create Poco SSL context with no verification (self-signed certs likely)
     const Poco::Net::Context::Ptr ptrContext(new Poco::Net::Context( Poco::Net::Context::CLIENT_USE, "", "", "", Poco::Net::Context::VERIFY_NONE));
@@ -37,14 +41,14 @@ int main()
     std::cin.get();
 
     // Upload/overwrite mod file
-    std::string file_content = readFileAsString("/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/test.mod");
-    abb::rws::RWSClient::FileResource upload_resource("simple_arm_ctl.mod", "Home/Programs/Wizard");
+    std::string file_content = readFileAsString(original_file_path + original_file_name + ".mod");
+    abb::rws::RWSClient::FileResource upload_resource(controller_file_name + ".mod", controller_file_path);
     std::cout << "upload mod file: " << rws_interface.uploadFile(upload_resource, file_content) << std::endl;
     std::cin.get();
 
     // Upload/overwrite program file
-    std::string program_file_content = readFileAsString("/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/test.pgf");
-    abb::rws::RWSClient::FileResource program_upload_resource("simple_arm_ctl.pgf", "Home/Programs/Wizard");
+    std::string program_file_content = readFileAsString(original_file_path + original_file_name + ".pgf");
+    abb::rws::RWSClient::FileResource program_upload_resource(controller_file_name + ".pgf", controller_file_path);
     std::cout << "upload program file: " << rws_interface.uploadFile(program_upload_resource, program_file_content) << std::endl;
     std::cin.get();
 
@@ -57,7 +61,7 @@ int main()
     std::cin.get();
 
     // loading rapid task
-    abb::rws::RWSClient::FileResource program("simple_arm_ctl.pgf", "Home/Programs/Wizard");
+    abb::rws::RWSClient::FileResource program(controller_file_name + ".pgf", controller_file_path);
     std::cout << "load file to task: " << rws_interface.loadFileToRapid(program) << std::endl; 
     std::cin.get(); 
     
