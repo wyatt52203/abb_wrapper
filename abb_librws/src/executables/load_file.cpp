@@ -20,13 +20,21 @@ std::string readFileAsString(const std::string& filepath)
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
+    if (argc < 2)
+    {
+        std::cerr << "Usage: rosrun abb_librws load_file <controller_file_name>" << std::endl;
+        return 1;
+    }
+
+    std::string controller_file_name = argv[1];
+    std::cout << "Controller file name: " << controller_file_name << std::endl;
+
+    std::string original_file_name = controller_file_name;
     std::string ip = "192.168.15.81";
     std::string username = "Admin";
     std::string password = "robotics";
-    std::string controller_file_name = "speed_benchmark";
-    std::string original_file_name = "speed_benchmark";
     std::string original_file_path = "/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/";
     std::string controller_file_path = "Home/Programs/Wizard";
 

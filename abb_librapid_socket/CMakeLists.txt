@@ -73,6 +73,18 @@ target_link_libraries(benchmark_rate
   PocoCrypto
 )
 
+add_executable(udp_client src/executables/udp_client.cpp)
+target_link_libraries(udp_client
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Poco_LIBRARIES}
+  PocoNet
+  PocoUtil
+  PocoFoundation
+  PocoNetSSL
+  PocoCrypto
+)
+
 #############
 ## Install ##
 #############

@@ -1,50 +1,33 @@
 MODULE speed_benchmark
-    VAR socketdev mySocket;
-    VAR socketdev clientSocket;
-    VAR socketstatus stat;
-    VAR string ipAddress := "192.168.15.81";  ! Controller IP
-    VAR num port := 1025;
-    VAR byte msg{1024};
-    VAR byte send_msg{1024};
-    VAR string typed_msg;
-    
+    VAR socketdev udp_socket;
+    VAR string client_ip;
+    VAR num client_port;
+    VAR byte msg_recv{1024};
+    VAR byte msg_send{1024};
+    VAR string str_data;
+    VAR num recv_len;
+    VAR num msgs_recieved;
+
     PROC main()
-        !delete old connections
-        SocketClose clientSocket;
-        SocketClose mySocket;
-        
-        !connect
-        
-        SocketCreate mySocket;
-        SocketBind mySocket, ipAddress, port;
-    
-        SocketListen mySocket;
-    
-        TPWrite "Waiting for connection...";
-        SocketAccept mySocket, clientSocket;
-    
-        TPWrite "Client connected!";
-        
-        !receive   
+        SocketCreate udp_socket \UDP;
+        SocketBind udp_socket, "192.168.15.81", 1025;
+        TPWrite "UDP server ready.";
+        msgs_recieved := 0;
+
         WHILE TRUE DO
-            SocketReceive clientSocket \Data:= msg;
-            
-            ! Print message no matter what
-            TPWrite "Received: ";
-            typed_msg := NumToStr(msg{1}, 3);
-            TPWrite typed_msg;
-            
-            send_msg{1} := 65;  ! ASCII 'A'
-            SocketSend clientSocket \Data:= send_msg;
-        ENDWHILE        
+            SocketReceiveFrom udp_socket \Str := str_data, client_ip, client_port;
+            msgs_recieved := msgs_recieved + 1;
+            IF msgs_recieved MOD 1000 = 0 THEN
+                TPWrite "Received from " + client_ip + ":" + NumToStr(client_port, 0);
+                TPWrite "Got string: " + str_data;
+                TPWrite NumToStr(msgs_recieved, 0);
+            ENDIF
 
+            ! Echo same message back
+            ! msg_send{1} := msg_recv{1};
+            ! SocketSendTo udp_socket, client_ip, client_port \Data := msg_send;
+        ENDWHILE
 
-        TPWrite "closing now";
-        SocketClose clientSocket;
-        SocketClose mySocket;
-        
     ENDPROC
-
-    
-    
 ENDMODULE
+
