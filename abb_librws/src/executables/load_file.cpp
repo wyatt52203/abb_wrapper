@@ -35,6 +35,7 @@ int main(int argc, char* argv[])
     std::string ip = "192.168.15.81";
     std::string username = "Admin";
     std::string password = "robotics";
+    // TODO: make filepaths parameters
     std::string original_file_path = "/root/catkin_ws/src/abb_wrapper/abb_librws/src/executables/rapid_programs/";
     std::string controller_file_path = "Home/Programs/Wizard";
 
@@ -46,36 +47,38 @@ int main(int argc, char* argv[])
 
     // Turn off existing processes
     std::cout << "program off: " << rws_interface.stopRAPIDExecution() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // Upload/overwrite mod file
     std::string file_content = readFileAsString(original_file_path + original_file_name + ".mod");
     abb::rws::RWSClient::FileResource upload_resource(controller_file_name + ".mod", controller_file_path);
     std::cout << "upload mod file: " << rws_interface.uploadFile(upload_resource, file_content) << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // Upload/overwrite program file
     std::string program_file_content = readFileAsString(original_file_path + original_file_name + ".pgf");
     abb::rws::RWSClient::FileResource program_upload_resource(controller_file_name + ".pgf", controller_file_path);
     std::cout << "upload program file: " << rws_interface.uploadFile(program_upload_resource, program_file_content) << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // Request MasterShip (Required to manage rapid tasks)
     std::cout << "requesting mastership: " << rws_interface.requestMasterShip() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
+
+    // TODO: loadFileToRapid only loads to ROB_1 currently
     // unload rapid task
     std::cout << "unload task file: " << rws_interface.unloadFileFromRapid() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // loading rapid task
     abb::rws::RWSClient::FileResource program(controller_file_name + ".pgf", controller_file_path);
     std::cout << "load file to task: " << rws_interface.loadFileToRapid(program) << std::endl; 
-    std::cin.get(); 
+    std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
     
     // release MasterShip
     std::cout << "releasing mastership: " << rws_interface.releaseMasterShip() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     
     return 0;
 }
