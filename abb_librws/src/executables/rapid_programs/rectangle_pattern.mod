@@ -13,7 +13,6 @@ MODULE slider_arm_ctl
     VAR bool left_to_right := TRUE;
     VAR num y;
     VAR num z;
-    VAR num dz;
     
     ! web params
     VAR num spd := 100;
@@ -22,6 +21,11 @@ MODULE slider_arm_ctl
     VAR num rgt := 600;
     VAR num upr := 700;
     VAR num lwr := 100;
+    VAR num acc := 100;
+    VAR num jrk := 100;
+    VAR num dac := 100;
+    VAR zonedata zone := fine;
+    
     
     
     PROC main()
@@ -46,6 +50,23 @@ MODULE slider_arm_ctl
                     CASE "spd":
                         spd := parsed_val;
                         speed := [spd, 1000, 5000, 1000];
+                    CASE "zon":
+                        TEST parsed_val
+                            CASE 1000:
+                                zone := fine;
+                            CASE 0:
+                                zone := z0;
+                            CASE 20:
+                                zone := z20;
+                            CASE 50:
+                                zone := z50;
+                            CASE 100:
+                                zone := z100;
+                            CASE 150:
+                                zone := z150;
+                            CASE 200:
+                                zone := z200;
+                        ENDTEST
                     CASE "int":
                         int := parsed_val;
                     CASE "lft":
@@ -56,25 +77,33 @@ MODULE slider_arm_ctl
                         upr := parsed_val;
                     CASE "lwr":
                         lwr := parsed_val;
+                    CASE "acc":
+                        acc := parsed_val;
+                    CASE "jrk":
+                        jrk := parsed_val;
+                    CASE "dac":
+                        dac := parsed_val;
                     CASE "go!":
-                        dz := (upr - lwr) / int;  ! vertical step size
+                        AccSet acc, jrk \FinePointRamp:=dac;
 
-                        FOR z FROM upr TO lwr STEP -dz DO
+                        z := upr;
+
+                        WHILE z >= lwr DO
                             IF left_to_right THEN
                                 y := lft;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, z50, tool0;
+                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
                                 y := rgt;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, z50, tool0;
+                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
                             ELSE
                                 y := rgt;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, z50, tool0;
+                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
                                 y := lft;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, z50, tool0;
+                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
                             ENDIF
 
-                            ! Alternate direction (zig-zag)
+                            z := z - int;
                             left_to_right := NOT left_to_right;
-                        ENDFOR
+                        ENDWHILE
                 ENDTEST
             ENDIF
             
