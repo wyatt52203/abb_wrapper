@@ -1,4 +1,4 @@
-MODULE slider_arm_ctl
+MODULE rectangle_pattern
     VAR socketdev udp_socket;
     VAR string client_ip;
     VAR num client_port;
@@ -7,7 +7,6 @@ MODULE slider_arm_ctl
     VAR string value;
     VAR num str_length;
     VAR num parsed_val;
-    VAR robtarget target;
     VAR bool success;
     VAR speeddata speed := v100;
     VAR bool left_to_right := TRUE;
