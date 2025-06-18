@@ -528,19 +528,20 @@ public:
    * \brief A method for loading a file from the robot controller.
    *
    * \param resource specifying the file's directory and name.
+   * \param task_name specifying the task to load to
    *
    * \return RWSResult containing the result.
    */
-  bool loadFileToRapid(const RWSClient::FileResource resource);
+  bool loadFileToRapid(const RWSClient::FileResource resource, std::string task_name);
 
   /**
    * \brief A method for loading a file from the robot controller.
    *
-   * \param resource specifying the file's directory and name.
+   * \param task_name specifying the task to unload
    *
    * \return RWSResult containing the result.
    */
-  bool unloadFileFromRapid();
+  bool unloadFileFromRapid(std::string task_name);
 
   /**
    * \brief A method for starting for a subscription.

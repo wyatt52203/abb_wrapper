@@ -24,12 +24,18 @@ int main(int argc, char* argv[])
 {
     if (argc < 2)
     {
-        std::cerr << "Usage: rosrun abb_librws load_file <controller_file_name>" << std::endl;
+        std::cerr << "Usage: rosrun abb_librws load_file <controller_file_name> [task_name]" << std::endl;
         return 1;
     }
 
+    std::string task_name = "T_ROB1";  // Default task name
+    
+    if (argc >= 3)
+    {
+      task_name = argv[2];  // Override if provided
+    }
+    
     std::string controller_file_name = argv[1];
-    std::cout << "Controller file name: " << controller_file_name << std::endl;
 
     std::string original_file_name = controller_file_name;
     std::string ip = "192.168.15.81";
@@ -68,12 +74,12 @@ int main(int argc, char* argv[])
 
     // TODO: loadFileToRapid only loads to ROB_1 currently
     // unload rapid task
-    std::cout << "unload task file: " << rws_interface.unloadFileFromRapid() << std::endl;
+    std::cout << "unload task file: " << rws_interface.unloadFileFromRapid(task_name) << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // loading rapid task
     abb::rws::RWSClient::FileResource program(controller_file_name + ".pgf", controller_file_path);
-    std::cout << "load file to task: " << rws_interface.loadFileToRapid(program) << std::endl; 
+    std::cout << "load file to task: " << rws_interface.loadFileToRapid(program, task_name) << std::endl; 
     std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
     
     // release MasterShip
