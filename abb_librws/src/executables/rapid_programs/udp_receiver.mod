@@ -1,5 +1,6 @@
-MODULE rectangle_pattern
+MODULE udp_receiver
     VAR socketdev udp_socket;
+    VAR socketstatus status;
     VAR string client_ip;
     VAR num client_port;
     VAR string msg;
@@ -8,28 +9,51 @@ MODULE rectangle_pattern
     VAR num str_length;
     VAR num parsed_val;
     VAR bool success;
-    VAR speeddata speed := v100;
-    VAR bool left_to_right := TRUE;
-    VAR num y;
-    VAR num z;
+
+
     
     ! web params
-    VAR num spd := 100;
-    VAR num int := 10;
-    VAR num lft := -600;
-    VAR num rgt := 600;
-    VAR num upr := 700;
-    VAR num lwr := 100;
-    VAR num acc := 100;
-    VAR num jrk := 100;
-    VAR num dac := 100;
-    VAR zonedata zone := fine;
+    PERS num spd;
+    PERS num int;
+    PERS num lft;
+    PERS num rgt;
+    PERS num upr;
+    PERS num lwr;
+    PERS num acc;
+    PERS num jrk;
+    PERS num dac;
+    PERS bool go;
+    PERS bool play;
+    PERS zonedata zone;
+    PERS speeddata speed;
     
     
     
     PROC main()
+        ! Reset params
+
+        spd := 800;
+        int := 100;
+        lft := -600;
+        rgt := 600;
+        upr := 700;
+        lwr := 100;
+        acc := 100;
+        jrk := 100;
+        dac := 100;
+        go := FALSE;
+        play := TRUE;
+        zone := [TRUE,0,0,0,0,0,0];
+        speed := [800,1000,5000,1000];
+        SetDO MyPauseSignal, 0;
+        SetDO MyResetSignal, 0;
+
+        ! delete old connections
+        ! SocketClose udp_socket;
+
         SocketCreate udp_socket \UDP;
         SocketBind udp_socket, "192.168.15.81", 1025;
+
         TPWrite "UDP server ready.";
 
 
@@ -37,6 +61,7 @@ MODULE rectangle_pattern
         WHILE TRUE DO
             SocketReceiveFrom udp_socket \Str := msg, client_ip, client_port;
             
+            TPWrite "msg: " + msg;
             cmd := StrPart(msg, 1, 3);
             TPWrite "cmd: " + cmd;
             str_length := StrLen(msg);
@@ -83,34 +108,23 @@ MODULE rectangle_pattern
                     CASE "dac":
                         dac := parsed_val;
                     CASE "go!":
-                        AccSet acc, jrk \FinePointRamp:=dac;
-
-                        z := upr;
-
-                        WHILE z >= lwr DO
-                            IF left_to_right THEN
-                                y := lft;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
-                                y := rgt;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
-                            ELSE
-                                y := rgt;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
-                                y := lft;
-                                MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
-                            ENDIF
-
-                            z := z - int;
-                            left_to_right := NOT left_to_right;
-                        ENDWHILE
+                        go := TRUE;
+                    CASE "pz!":
+                        play := FALSE;
+                        SetDO MyPauseSignal, 1;
+                    CASE "pl!":
+                        play := TRUE;
+                    CASE "rs!":
+                        SetDO MyResetSignal, 1;
                 ENDTEST
             ENDIF
-            
         ENDWHILE        
 
         ERROR
             TPWrite "ERRNO: " + ValToStr(ERRNO);
-            ! TRYNEXT;
+            IF ERRNO = ERR_SOCK_TIMEOUT THEN
+                RETRY;
+            ENDIF
 
         TPWrite "closing now";
         SocketClose udp_socket;

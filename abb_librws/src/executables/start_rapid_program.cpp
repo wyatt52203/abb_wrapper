@@ -19,7 +19,7 @@ int main()
 
     // Turn off existing processes
     std::cout << "program off: " << rws_interface.stopRAPIDExecution() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (attempt_local_connect) {
         std::cout << "requesting local user registration: " << rws_interface.registerLocalUser("Admin", "ExternalApplication", "ExternalLocation") << std::endl;
         std::cout << "set to auto mode: " << rws_interface.setAutoMode() << std::endl;
@@ -27,21 +27,21 @@ int main()
 
     // turn motors on
     std::cout << "set motors on: " << rws_interface.setMotorsOn() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // Request MasterShip (Required to reset program pointer)
     std::cout << "requesting mastership: " << rws_interface.requestMasterShip() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     std::cout << "reset pointer to main status: " << rws_interface.resetRAPIDProgramPointer() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     
     std::cout << "releasing mastership: " << rws_interface.releaseMasterShip() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // start program
     std::cout << "program on status: " << rws_interface.startRAPIDExecution() << std::endl;
-    std::cin.get();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 
     return 0;

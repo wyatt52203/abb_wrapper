@@ -606,19 +606,20 @@ public:
    * \brief A method for loading a file from the robot controller.
    *
    * \param resource specifying the file's directory and name.
+   * \param task_name specifying the task to load to
    *
    * \return RWSResult containing the result.
    */
-  RWSResult loadFileToRapid(const FileResource resource);
+  RWSResult loadFileToRapid(const FileResource resource, std::string task_name);
 
  /**
    * \brief A method for unloading a file from the robot controller.
    *
-   * \param resource specifying the file's directory and name.
+   * \param task_name specifying the task to unload a module from
    *
    * \return RWSResult containing the result.
    */
-  RWSResult unloadFileFromRapid();
+  RWSResult unloadFileFromRapid(std::string task_name);
 
   /**
    * \brief A method for starting for a subscription.

@@ -493,9 +493,9 @@ RWSClient::RWSResult RWSClient::deleteFile(const FileResource resource)
   return evaluatePOCOResult(httpDelete(uri_), evaluation_conditions_);
 }
 
-RWSClient::RWSResult RWSClient::loadFileToRapid(const FileResource resource)
+RWSClient::RWSResult RWSClient::loadFileToRapid(const FileResource resource, std::string task_name)
 {
-  uri_ = Resources::RW_RAPID_TASKS + "/T_ROB1/program/load";
+  uri_ = Resources::RW_RAPID_TASKS + "/" + task_name + "/program/load";
   content_ = "progpath=/" + resource.directory + "/" + resource.filename;
 
   evaluation_conditions_.reset();
@@ -506,9 +506,9 @@ RWSClient::RWSResult RWSClient::loadFileToRapid(const FileResource resource)
   return evaluatePOCOResult(httpPost(uri_, content_), evaluation_conditions_);
 }
 
-RWSClient::RWSResult RWSClient::unloadFileFromRapid()
+RWSClient::RWSResult RWSClient::unloadFileFromRapid(std::string task_name)
 {
-  uri_ = Resources::RW_RAPID_TASKS + "/T_ROB1/program/unload";
+  uri_ = Resources::RW_RAPID_TASKS + "/" + task_name + "/program/unload";
 
   evaluation_conditions_.reset();
   evaluation_conditions_.parse_message_into_xml = false;

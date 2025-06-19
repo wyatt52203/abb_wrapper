@@ -378,14 +378,14 @@ bool RWSInterface::deleteFile(const RWSClient::FileResource resource)
   return rws_client_.deleteFile(resource).success;
 }
 
-bool RWSInterface::loadFileToRapid(const RWSClient::FileResource resource)
+bool RWSInterface::loadFileToRapid(const RWSClient::FileResource resource, std::string task_name)
 {
-  return rws_client_.loadFileToRapid(resource).success;
+  return rws_client_.loadFileToRapid(resource, task_name).success;
 }
 
-bool RWSInterface::unloadFileFromRapid()
+bool RWSInterface::unloadFileFromRapid(std::string task_name)
 {
-  return rws_client_.unloadFileFromRapid().success;
+  return rws_client_.unloadFileFromRapid(task_name).success;
 }
 
 bool RWSInterface::startSubscription (RWSClient::SubscriptionResources resources)
