@@ -13,23 +13,40 @@ MODULE udp_receiver
 
     
     ! web params
-    PERS num spd := 800;
-    PERS num int := 100;
-    PERS num lft := -600;
-    PERS num rgt := 600;
-    PERS num upr := 700;
-    PERS num lwr := 100;
-    PERS num acc := 100;
-    PERS num jrk := 100;
-    PERS num dac := 100;
-    PERS bool go := FALSE;
-    PERS bool play := TRUE;
-    PERS zonedata zone := [TRUE,0,0,0,0,0,0];
-    PERS speeddata speed := [800,1000,5000,1000];
+    PERS num spd;
+    PERS num int;
+    PERS num lft;
+    PERS num rgt;
+    PERS num upr;
+    PERS num lwr;
+    PERS num acc;
+    PERS num jrk;
+    PERS num dac;
+    PERS bool go;
+    PERS bool play;
+    PERS zonedata zone;
+    PERS speeddata speed;
     
     
     
     PROC main()
+        ! Reset params
+
+        spd := 800;
+        int := 100;
+        lft := -600;
+        rgt := 600;
+        upr := 700;
+        lwr := 100;
+        acc := 100;
+        jrk := 100;
+        dac := 100;
+        go := FALSE;
+        play := TRUE;
+        zone := [TRUE,0,0,0,0,0,0];
+        speed := [800,1000,5000,1000];
+        SetDO MyPauseSignal, 0;
+
         ! delete old connections
         ! SocketClose udp_socket;
 

@@ -65,8 +65,14 @@ MODULE motion
     ENDPROC
 
     TRAP wait_trap
+        StopMove;
+        StorePath;
+        
         WaitUntil play;
         SetDO MyPauseSignal, 0;
+
+        RestoPath;
+        StartMove;
     ENDTRAP
 
     
