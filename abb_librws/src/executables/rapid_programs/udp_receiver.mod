@@ -93,7 +93,7 @@ MODULE udp_receiver
                         go := TRUE;
                     CASE "pz!":
                         play := FALSE;
-                        ! some interrupt?
+                        SetDO MyPauseSignal, 1;
                     CASE "pl!":
                         play := TRUE;
                 ENDTEST

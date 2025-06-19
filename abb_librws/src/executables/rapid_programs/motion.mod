@@ -3,6 +3,9 @@ MODULE motion
     VAR num y;
     VAR num z;
     
+    ! interrupt param
+    VAR intnum intno1;
+
     ! web params
     PERS num spd;
     PERS num int;
@@ -21,6 +24,9 @@ MODULE motion
     
     
     PROC main()
+        CONNECT intno1 WITH wait_trap;
+        ISignalDO MyPauseSignal, 1, intno1;
+
         WHILE TRUE DO
 
             ! Wait for persistent variable signal
@@ -58,6 +64,10 @@ MODULE motion
             ! TRYNEXT;
     ENDPROC
 
+    TRAP wait_trap
+        WaitUntil play;
+        SetDO MyPauseSignal, 0;
+    ENDTRAP
 
     
     
