@@ -3,8 +3,9 @@ MODULE motion
     VAR num y;
     VAR num z;
     
-    ! interrupt param
+    ! interrupt identifiers
     VAR intnum intno1;
+    VAR intnum intno2;
 
     ! web params
     PERS num spd;
@@ -24,8 +25,14 @@ MODULE motion
     
     
     PROC main()
+
+        IDelete intno1;
         CONNECT intno1 WITH wait_trap;
         ISignalDO MyPauseSignal, 1, intno1;
+
+        IDelete intno2;
+        CONNECT intno2 WITH reset_trap;
+        ISignalDO MyResetSignal, 1, intno2;
 
         WHILE TRUE DO
 
@@ -40,15 +47,19 @@ MODULE motion
             WHILE z >= lwr DO
                 IF left_to_right THEN
                     y := lft;
-                    MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
-                    y := rgt;
-                    MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
                 ELSE
                     y := rgt;
-                    MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
-                    y := lft;
-                    MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
                 ENDIF
+
+                IF go MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
+
+                IF left_to_right THEN
+                    y := rgt;
+                ELSE
+                    y := lft;
+                ENDIF
+
+                IF go MoveL [[300, y, z], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
 
                 z := z - int;
                 left_to_right := NOT left_to_right;
@@ -73,6 +84,18 @@ MODULE motion
 
         RestoPath;
         StartMove;
+    ENDTRAP
+
+    TRAP reset_trap
+        StopMove;
+        ClearPath;
+        StartMove;
+        MoveL [[300, lft, upr], [0,1,0,0], [-1,-1,0,1], [9E9,9E9,9E9,9E9,9E9,9E9]], speed, zone, tool0;
+
+        go := FALSE;
+        SetDO MyResetSignal, 0;
+
+        ExitCycle;
     ENDTRAP
 
     

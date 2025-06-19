@@ -46,6 +46,7 @@ MODULE udp_receiver
         zone := [TRUE,0,0,0,0,0,0];
         speed := [800,1000,5000,1000];
         SetDO MyPauseSignal, 0;
+        SetDO MyResetSignal, 0;
 
         ! delete old connections
         ! SocketClose udp_socket;
@@ -113,6 +114,8 @@ MODULE udp_receiver
                         SetDO MyPauseSignal, 1;
                     CASE "pl!":
                         play := TRUE;
+                    CASE "rs!":
+                        SetDO MyResetSignal, 1;
                 ENDTEST
             ENDIF
         ENDWHILE        
